@@ -1,0 +1,108 @@
+@charset "utf-8";
+* {margin:0; box-sizing:border-box;padding: 0;}
+html{font-family: 幼圆, 黑体, Segoe UI Symbol, 微软雅黑; color:#fff;font-size: 10px; line-height:1.5;background: rgba(96, 96, 96, 0);}
+body{max-width:360px;min-width:320px;font-family: 微软雅黑, 黑体, Segoe UI Symbol,幼圆 ; font-size: 16px;}
+body.timelinewin{overflow: hidden;background: rgba(96, 96, 96, 0);}
+body.setting{max-width:none;background: #eacca6;color:#343f44;min-width:440px;}
+img{max-width:100%}
+li{list-style:none;}
+input{border-style: none;}
+h2{font-size:20px;margin:8px 0 10px 0;}
+p{margin-bottom:8px;}
+input[type="text"]{padding:2px 5px;border-radius:3px;border:1px solid #b7b7b8;font-size: 1.6rem;line-height: 1.5;}
+dt, dd{ margin-bottom:10px; }
+dt{ float:left;clear:left; margin-right: 8px;}
+dd{float:left;}
+dd input[readonly]:focus{ outline: -webkit-focus-ring-color auto 5px;}
+iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
+
+.clearfix{}
+.clearfix:after{clear:both;content:''; display: block;}
+.button{display: inline-block;cursor:pointer;text-decoration: none;background: #fff; padding: 2px 15px;  border-radius: 3px;color: #6c757d; border:1px solid #ced4da;min-width: 80px;text-align: center; }
+.hetbtn{background: #1DA568; color: #fff; border-radius: 3px; font-weight: 700; border:none}
+.mb3{margin-bottom:3px;}
+.shadow{box-shadow: 0 0.125rem 0.25rem rgba(108,117,125,0.075);}
+
+.dialog{position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);  top: 0; left: 0;z-index: 100;}
+.dialog.global{position: fixed;}
+.dialog section{position: absolute; width: 400px; height: fit-content; background: #fff; border:1px solid #ced4da;  top: 0; bottom:0; left: 0; right:0; margin:auto
+;text-align: center;padding:20px;}
+.dialog h1{font-weight:normal; margin:10px 0 25px;font-size:20px;}
+.timelinewin .dialog h1{margin:0}
+.dialog div{ margin:10px 0;}
+.dialog a{ margin:0 10px;padding:5px 30px;}
+.timeline .dialog section{width:300px;}
+.timeline .dialog section{background: transparent; border: none;}
+.dialog.msg{animation:showhides 0.5s 1;}
+@keyframes showhides{
+	0%{opacity:0;}
+	100%{opacity:1;}
+}
+.dialog.msghide{animation:showhideh 0.5s 1;}
+@keyframes showhideh{
+	0%{opacity:0;}
+	50%{opacity:1;}
+	100%{opacity:0;}
+}
+.controlarea{user-select:none;cursor: move;}
+.timeline{overflow: hidden;}
+.countdown{position:relative; z-index: 100;}
+.countdown:before{width:360px; height:4px;background:rgba(255, 255, 255, 0.4);border-radius: 2px;content:'';display:block;}
+.timerbar{ background:#0efbbb; height:4px;border-top-left-radius: 2px;border-bottom-left-radius: 2px; position:absolute;top:0;left:0;width:200px;}
+.skillpoint{ width:16px; height:16px;border-radius:50%;background:#3fabd7;padding:2px;position:absolute;right:-8px; top:-6px;}
+.skillpoint:before {width:12px; height:12px;border-radius:50%;background:#fff;content:'';display:block;}
+.countdown_s{ float:left; width: 35px;}
+.cdskill{float:left;color: #f9f30a;max-width: 166px;overflow: hidden;display: inline-block;height: 24px;}
+.nextskillname{float:right;max-width: 146px;overflow: hidden; height: 24px;}
+.skillinfo{}
+.nextskillpoint{width:16px; height:16px;border-radius:50%;background:#f29b1c;padding:2px;position:absolute;left:300px; top:-6px;}
+.nextskillpoint:before{width:12px; height:12px;border-radius:50%;background:#fff;content:'';display:block;}
+
+.progress{position:relative;z-index: 99; margin-top:3px;}
+.progress:before{width:360px; height:2px;background:rgba(255, 255, 255, 0.4);border-radius: 2px;content:'';display:block;}
+.progress:after{width:160px; height:2px;background:#fff;border-radius: 2px;content:'';display:block;position:absolute;left:0;top:0}
+.maintimer{float:right;width:40px;text-align:right;}
+.partn{float:right;}
+.bossname{float:right; margin-right:20px;}
+
+
+/* setting page */
+.setting-title{ background: rgba(242, 242, 242, 0.7); border-bottom: 1px solid #d6d6d6; }
+.setting-title li{display:inline-block;padding:5px 25px;cursor: pointer;}
+.setting-title li.on{box-shadow: 2px 2px 5px #a78f75 inset;color: #a90000;}
+.editTimeline{position:relative;}
+.content {padding:0 15px;}
+.content > div{display:none;position:relative;}
+.content > div.show{display:block;}
+
+.FBtitle {margin:10px 0;}
+.FBtitle dt, .FBtitle dd {display: inline-block;}
+.addFBcontainer{float:right;}
+.bosslist{margin: 10px 0;}
+.bosslist ul{ padding: 3px 0;}
+.bosslist li{display:inline-block; cursor:pointer;  min-width: 55px;}
+.bosslist li label, .bosslist li input{cursor:pointer;}
+.bosslist .addBoss{float:right;}
+.jsonwrap > div{display:none;}
+.jsonwrap > div.show{display:block;}
+.jsonwrap > div > div{border:1px solid #b7b7b8;min-height:25px; margin-bottom:10px; padding:10px 15px;box-shadow: 0 0.125rem 0.25rem rgba(108,117,125,0.075);}
+.json{position:relative;background: #fff;}
+.json:focus:before {display:none}
+.json:before {position: absolute; bottom: 0; background:rgba(242, 216, 188, 0.8); right: 0; padding: 0 3px; color: #000;font-size:14px;}
+.json:nth-child(1):before {content: "关键技能,在时间轴上会显示为红色";}
+.json:nth-child(2):before {content: "P1";}
+.json:nth-child(3):before {content: "P2";}
+.json:nth-child(4):before {content: "P3";}
+.json:nth-child(5):before {content: "P4";}
+
+/* .json:before{content:'';display:block;width:100%;height:100%;position:absolute;background: #fff;z-index: -1;top:0;left:0} */
+.jsonwrap > div p{position:relative;background:#fff;padding: 15px;cursor: pointer;border:1px solid #b7b7b8;}
+.jsonwrap > div p:before{content:'';display:block;width:30px;height:4px;background:#7f8993;position: absolute;left: 0;right: 0;margin: auto;top: 0;bottom: 0;}
+.jsonwrap > div p:after{content:'';display:block;width:20px;height:4px;transform:rotate(90deg);background:#7f8993;position: absolute;left: 0;right: 0;margin: auto;top: 0;bottom: 0;}
+.json.error, .json.error:focus{border:1px solid #f72020;    outline-color: #f72020;}
+div.save{ margin:10px 0}
+div.save .bossDelete{ float:left; }
+div.save a.save{ float:right; }
+.stagingAlert{ clear:both; text-align: right; color:#f00;}
+.hotkeys{padding-top: 8px;}
+

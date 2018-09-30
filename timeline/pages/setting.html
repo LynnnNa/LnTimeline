@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>Setting - Lynnote Timeline Helper </title>
+		<link rel="stylesheet" type="text/css" href="../asset/css/layout.css" />
+		
+	</head>
+	<body class="setting">
+	<nav class="setting-title" id="settingNav">
+		<ul>
+			
+			<li class="on">时间轴</li>
+			<li>快捷键</li>
+			<li>教程</li>
+			<li>关于</li>
+		</ul>
+	</nav>
+	<div class="content" id="content">
+		<div class="editTimeline show">
+			<div class="FBtitle clearfix">
+				<a href="JavaScript:void(0)" id="addFBcontainer" class="addFBcontainer button" title="功能未完成">添加新副本</a>
+				<dl>
+					<dt>当前副本集:</dt>
+					<dd><input type="text" id="currentFB" /></dd>
+				</dl>
+			</div>
+			<div class="bosslist clearfix">
+				<a href="JavaScript:void(0)" id="addBoss" class="addBoss button">添加boss</a>
+				<ul id="bosslist"> 
+				</ul>
+			</div>
+			<div id="json" class="jsonwrap"> 
+			</div>
+			<div class="save clearfix">
+				<a href="JavaScript:void(0)" id="bossDelete" class="bossDelete button">删除当前boss</a>
+				<a href="JavaScript:void(0)" id="dataSave" class="save hetbtn button">保存</a>
+				<p class="stagingAlert" id="stagingAlert">关闭窗口前,请先保存数据</p>
+			</div>
+			<div class="FBtitle clearfix">
+				<a href="JavaScript:void(0)" class="button" title="功能未完成">导入</a>
+				<a href="JavaScript:void(0)" class="button" title="功能未完成">导出</a>
+			</div>
+			<div class="msg dialog" id="checkbossmsg">
+				<section class="shadow">
+					<p>若要修改时间轴数据, 请先从托盘处选择boss</p>
+				</section>
+			</div>
+		</div>
+		<div id="hotkeys" class="hotkeys">
+			<p class="tip">直接按键盘进行设置 (优先级较高,尽量避免冲突.不支持Windows键)</p>
+			<dl class="clearfix">
+			   <dt><label for="hkstart">开始：</label></dt>
+			   <dd><input id="hkstart" type="text" readonly /></dd>
+			   
+			   <dt><label for="hkstop">停止：</label></dt>
+			   <dd><input id="hkstop" type="text" readonly /></dd>
+			   
+			   <dt><label for="hkforwd">快进一秒：</label></dt>
+			   <dd><input id="hkforwd" type="text" readonly /></dd>
+			   
+			   <dt><label for="hkrevrs">快退一秒：</label></dt>
+			   <dd><input id="hkrevrs" type="text" readonly /></dd>
+			   
+			   <dt><label for="hknextp">下P：</label></dt>
+			   <dd><input id="hknextp" type="text" readonly /></dd>
+			   
+			</dl>
+			<p class="save"><a href="JavaScript:void(0)" id="hotkeySave" class="hetbtn button">保存</a></p>
+		</div>
+		<div id="tutorial"><iframe src="http://timeline.lynnote.site/tutorial/"></iframe></div>
+		<div id="homepage"><iframe src="http://timeline.lynnote.site"></iframe></div>
+	</div>
+	<div class="confirm dialog global" id="confirm" style="display:none">
+		<section class="shadow">
+			<h1></h1>
+			<div>
+				<a href="JavaScript:void(0)" class="submit button">确定</a>
+				<a href="JavaScript:void(0)" class="cancel button">取消</a>
+			</div>
+		</section>
+	</div>
+	<div class="userInput dialog global" id="userInputdialog" style="display:none">
+		<section class="shadow">
+			<dl class="clearfix">
+				   <dt><label for="userInput">boss名称</label><!-- <span class="error">boss名称不能为空</span> --></dt>
+				   <dd><input id="userInput" type="text" /></dd>
+			</dl>
+			<div>
+				<a href="JavaScript:void(0)" class="submit button">确定</a>
+				<a href="JavaScript:void(0)" class="cancel button">取消</a>
+			</div>
+		</section>
+	</div>
+	<div class="msg dialog global" id="msg" style="display:none">
+					<section class="shadow">
+						<h1></h1>
+					</section>
+				</div>
+	<script src="../asset/js/setting.js" charset="UTF-8"></script> 
+	</body>
+</html>
