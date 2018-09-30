@@ -1,6 +1,6 @@
 {
   "name": "LynnoteTimeline",
-  "version ": "0.0.1.20180618",
+  "version ": "0.1.0.20180721",
   "main": "timeline/index.html",
   "nodejs": true,
   "chromium-args": "--disable-gpu",
@@ -10,7 +10,7 @@
    "web": "http://www.lynnote.site"
 	}],
   "node-main":"timeline/initiate.js",
-  "domain":"lynnote.site",
+  "domain":"timeline.lynnote.site",
   "build": {
         "nwVersion": "0.30.5"
     },

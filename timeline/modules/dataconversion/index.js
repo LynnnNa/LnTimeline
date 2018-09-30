@@ -2,9 +2,20 @@ var dataconversion = {
 	jsonArrTonputStr : function(arr){
 	if (!arr) return '';
 		var str='';
-		for(i=0 ; i<arr.length; i++)
+		for(let i=0; i<arr.length; i++)
 		{
-			str+=arr[i].sec+":"+arr[i].name+",";
+			let tts;
+			if(arr[i].tts!=undefined){
+				tts = "";
+				arr[i].tts.forEach(function(ctts,i){
+					tts +='['+(parseInt(ctts.ttscd)>=0?ctts.ttscd:"")
+						+(ctts.ttsstr?","+ctts.ttsstr:"")+']';
+				}) 
+			}
+			str+=(i>0?"<br />":"")
+				+arr[i].sec+":"+arr[i].skillname
+				+(tts?tts:"")
+				+";";
 		}
 		return str;
 	},
@@ -13,16 +24,37 @@ var dataconversion = {
 		return JSON.parse(dataconversion.tojsonstr(str));
 	},
 	tojsonstr(str){
-		return ('{"sec":'+str.replace(/:/g, ",\"name\":\"") +'"}');
+		let 
+			a = str.split(':'),
+			b = a[1].replace(/]\[|\[|];|]/g,",").split(','),
+			jsonobj = {
+				sec:parseInt(a[0]),
+				skillname:b[0],
+				// ttscd:(parseInt(b[1])>=0?parseInt(b[1]):undefined),
+				// ttsstr:b[2]
+			},
+			tts = [];
+			b.forEach(function(str,i,_b){
+				if(i>0&&str!=""&&i%2 == 1){
+						let obj={};
+						obj.ttscd = parseInt(str);
+						obj.ttsstr = _b[i+1];
+						tts.push(obj);
+				}
+			});
+			jsonobj.tts = tts.length>0?tts:undefined;
+			
+		return JSON.stringify(jsonobj); 
+		//return ('{"sec":'+str.replace(/:/g, ",\"skillname\":\"") +'"}');
 	},
 	inputStrToJsonArray : function(str){
 		if (!str || str === '') return false;
-		var arr = str.split(',');  //["技能1:30", "技能12:60", "技能13:122"]
+		var arr = str.split(';');  //180:月影,3,驱散准备;
 		var arrC = [];
-		for(i = 0; i<arr.length; i++)
+		for(let i = 0; i<arr.length; i++)
 		{
 			if (arr[i].trim())
-			arrC[i]= dataconversion.inputStrToJsonObj(arr[i]);   //"技能1:30"
+			arrC[i]= dataconversion.inputStrToJsonObj(arr[i]); 
 		}
 		return arrC;
 	},
@@ -41,6 +73,60 @@ var dataconversion = {
 			newobj[attr] = dataconversion.copyObj(obj[attr]);
 		}
 		return newobj;
+	},
+	arrRemove : function(arr,index){
+		let temArray=[];
+		arr.forEach(function(item,i,array){
+			if(i!=index){
+			temArray.push(array[i]);
+			}
+		});
+		return temArray;
+	},
+	quickSortskill: function(array, left, right) {
+		if (left < right) {
+			let x = array[right].ttscd||array[right].sec, i = left - 1, temp;
+			for (let j = left; j <= right; j++) {
+				let y = array[j].ttscd || array[j].sec;
+				if (y <= x) {
+					i++;
+					temp = array[i];
+					array[i] = array[j];
+					array[j] = temp;
+				}
+			}
+			dataconversion.quickSortskill(array, left, i - 1);
+			dataconversion.quickSortskill(array, i + 1, right);
+		}
+	　　return array;
+	},
+	sortrduplication:function(array){
+		let newArray = [],item,temp,flag;
+		for(let i = 0; i < array.length; i++) {
+			flag = 0;
+			item = array[i];
+			if( item == undefined) {continue;}
+			let isec = item.ttscd||item.sec;
+			flag = 1;
+			for(let j = i+1; j < array.length; j++) {
+				if( array[j] == undefined) {continue;}
+				isec = item.ttscd||item.sec;
+				let jsec = array[j].ttscd||array[j].sec;
+				if(jsec<isec){
+					temp = item;
+					item = array[j];
+					array[j] = temp;
+					flag = 2;
+				}
+				if(jsec==isec){
+					item = array[j];
+					array[j] = null;
+					flag = 2;
+				}
+			}
+			if(flag)  newArray.push(item);
+		}
+	return newArray;
 	}
 	
 };

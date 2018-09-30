@@ -15,6 +15,8 @@ dt{ float:left;clear:left; margin-right: 8px;}
 dd{float:left;}
 dd input[readonly]:focus{ outline: -webkit-focus-ring-color auto 5px;}
 iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
+.import,.export{position:relative;}
+.import input[type="file"],.export input[type="file"]{position:absolute;width: 100%;height: 100%;left: 0;top: 0;opacity: 0;font-size:30px;}
 
 .clearfix{}
 .clearfix:after{clear:both;content:''; display: block;}
@@ -22,6 +24,14 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .hetbtn{background: #1DA568; color: #fff; border-radius: 3px; font-weight: 700; border:none}
 .mb3{margin-bottom:3px;}
 .shadow{box-shadow: 0 0.125rem 0.25rem rgba(108,117,125,0.075);}
+
+/* frame layout */
+.site-main{border-top: 3px solid #000;}
+.content > div.site-main{padding-top:0;}
+.post-full-header{ margin-bottom:15px;}
+.site-main h1{font-size:20px; margin:20px 0 15px;}
+.site-main h2{font-size:18px; margin:20px 0 15px;}
+.site-main h3{font-size: 16px; margin:20px 0 15px;}
 
 .dialog{position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);  top: 0; left: 0;z-index: 100;}
 .dialog.global{position: fixed;}
@@ -50,18 +60,22 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .countdown:before{width:360px; height:4px;background:rgba(255, 255, 255, 0.4);border-radius: 2px;content:'';display:block;}
 .timerbar{ background:#0efbbb; height:4px;border-top-left-radius: 2px;border-bottom-left-radius: 2px; position:absolute;top:0;left:0;width:200px;}
 .skillpoint{ width:16px; height:16px;border-radius:50%;background:#3fabd7;padding:2px;position:absolute;right:-8px; top:-6px;}
+.skillpoint.special{ background:#ff0000}
+.skillpoint.special:before{ background:#ff0000}
 .skillpoint:before {width:12px; height:12px;border-radius:50%;background:#fff;content:'';display:block;}
 .countdown_s{ float:left; width: 35px;}
 .cdskill{float:left;color: #f9f30a;max-width: 166px;overflow: hidden;display: inline-block;height: 24px;}
 .nextskillname{float:right;max-width: 146px;overflow: hidden; height: 24px;}
 .skillinfo{}
 .nextskillpoint{width:16px; height:16px;border-radius:50%;background:#f29b1c;padding:2px;position:absolute;left:300px; top:-6px;}
+.nextskillpoint.special{ background:#ff0000}
+.nextskillpoint.special:before{ background:#ff0000}
 .nextskillpoint:before{width:12px; height:12px;border-radius:50%;background:#fff;content:'';display:block;}
 
 .progress{position:relative;z-index: 99; margin-top:3px;}
 .progress:before{width:360px; height:2px;background:rgba(255, 255, 255, 0.4);border-radius: 2px;content:'';display:block;}
 .progress:after{width:160px; height:2px;background:#fff;border-radius: 2px;content:'';display:block;position:absolute;left:0;top:0}
-.maintimer{float:right;width:40px;text-align:right;}
+.maintimer{float:left;max-width:40px;text-align:right;}
 .partn{float:right;}
 .bossname{float:right; margin-right:20px;}
 
@@ -71,17 +85,18 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .setting-title li{display:inline-block;padding:5px 25px;cursor: pointer;}
 .setting-title li.on{box-shadow: 2px 2px 5px #a78f75 inset;color: #a90000;}
 .editTimeline{position:relative;}
-.content {padding:0 15px;}
-.content > div{display:none;position:relative;}
+.editTimeline-inner{position:relative;}
+.content {}
+.content > div{display:none;position:relative;padding:15px;}
 .content > div.show{display:block;}
 
-.FBtitle {margin:10px 0;}
+.FBtitle {margin: 0 0 10px 0;}
 .FBtitle dt, .FBtitle dd {display: inline-block;}
 .addFBcontainer{float:right;}
 .bosslist{margin: 10px 0;}
 .bosslist ul{ padding: 3px 0;}
-.bosslist li{display:inline-block; cursor:pointer;  min-width: 55px;}
-.bosslist li label, .bosslist li input{cursor:pointer;}
+.bosslist li{display:inline-block; cursor:pointer;  min-width: 55px; margin-bottom: 8px; margin-right:5px; }
+.bosslist li label, .bosslist li input{cursor:pointer;margin:0 2px;}
 .bosslist .addBoss{float:right;}
 .jsonwrap > div{display:none;}
 .jsonwrap > div.show{display:block;}
@@ -99,7 +114,8 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .jsonwrap > div p{position:relative;background:#fff;padding: 15px;cursor: pointer;border:1px solid #b7b7b8;}
 .jsonwrap > div p:before{content:'';display:block;width:30px;height:4px;background:#7f8993;position: absolute;left: 0;right: 0;margin: auto;top: 0;bottom: 0;}
 .jsonwrap > div p:after{content:'';display:block;width:20px;height:4px;transform:rotate(90deg);background:#7f8993;position: absolute;left: 0;right: 0;margin: auto;top: 0;bottom: 0;}
-.json.error, .json.error:focus{border:1px solid #f72020;    outline-color: #f72020;}
+.json.error, .json.error:focus{border:1px solid #f72020;outline-color: #f72020;}
+.json.error:before{display:block;content: "数据格式错误";}
 div.save{ margin:10px 0}
 div.save .bossDelete{ float:left; }
 div.save a.save{ float:right; }
