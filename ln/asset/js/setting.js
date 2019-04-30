@@ -1,5 +1,5 @@
 /* Ajax公共方法 */
-var Ajax={
+let Ajax={
     get: function(url, fn ,failfn) {
         var obj = new XMLHttpRequest();  // XMLHttpRequest对象用于在后台与服务器交换数据          
         obj.open('GET', url, true);
@@ -25,8 +25,9 @@ var Ajax={
         obj.send(data);
     }
 }
+let Ln = global.module.exports.Ln;
 window.onload = function(){
-	var
+	let
 		ele_bossListwarp = document.getElementById('bosslist'),  //boss列表wrap
 		ele_addBoss = document.getElementById('addBoss'),  //添加boss
 		ele_addFBcontainer = document.getElementById('addFBcontainer'),  //添加副本集
@@ -66,10 +67,11 @@ window.onload = function(){
 		currentBossname,  
 		ele_currentBoss //[label,div.show,index]
 		;
-	var DELETEBOSS = '确认删除该boss吗? <br /> 确认后, 点击 "保存" 键永久删除.'
+	let fs = require('fs');
+	let DELETEBOSS = '确认删除该boss吗? <br /> 确认后, 点击 "保存" 键永久删除.'
 		;
 	/* module */
-	var dataconversion = require('dataconversion'),
+	let dataconversion = require('dataconversion'),
 		inputStrToJsonArray = dataconversion.inputStrToJsonArray,
 		jsonArrTonputStr = dataconversion.jsonArrTonputStr,
 		copyObj = dataconversion.copyObj,
@@ -226,8 +228,9 @@ window.onload = function(){
 			});
 			ele_jsondiv.addEventListener('blur',function(e){
 				datavalid = true;
-				if(checkjsoninput(this)) updataCurrntbossdata(); 
-				else datavalid = false;
+				// if(checkjsoninput(this)) updataCurrntbossdata(); 
+				updataCurrntbossdata(); 
+				// else datavalid = false;
 			});
 			return ele_jsondiv;	
 		}
@@ -290,16 +293,16 @@ window.onload = function(){
 	}
 	//数据检测
 	function testJsonstr(str){
-		let reg = /^[1-9][0-9]*:[^:^,^\[^\]]+(\[(0|[1-9][0-9]*),[^:^,^\[^\]]+\])*$/;
+		// let reg = /^[1-9][0-9]*:[^:^,^\[^\]]+(\[(0|[1-9][0-9]*),[^:^,^\[^\]]+\])*$/;
+		let reg = /^[0-9]{1,2}:[0-9]{1,2}[^:^,^\[^\]]+(\[(0|[1-9][0-9]*),[^:^,^\[^\]]+\])*$/;
 		let strarr = str.split(';');
 		for(let i=0;i<strarr.length;i++){
-			if(i==0){
+			/* if(i==0){
 				//-5: 准备[5,准备开怪][3,3][2,2][1,1];
 				let _reg = /^-{0,1}[1-9][0-9]*:[^:^,^\[^\]]+(\[(0|[1-9][0-9]*),[^:^,^\[^\]]+\])*$/;
-				//let _reg = /^-{0,1}[1-9][0-9]*:[^:^,]+(,(0|[1-9][0-9]*){0,1},[^:^,]+){0,1}$/;
 				if(!_reg.test(strarr[i])) return false;
 				continue;
-			}
+			}  检验负数时间  */
 			if(i==strarr.length-1 && strarr[i]==''){
 				continue;
 			}
@@ -418,14 +421,15 @@ window.onload = function(){
 	function saveDatatofile(isClear,filepath,_resolve){
 		new Promise(function(resolve,reject){
 			let _filepath = filepath;
-			filepath = filepath || timeline.datapath+"\\default.dat";
+			filepath = filepath || Ln.datapath+"\\default.dat";
 			try{
-				fs = require("fs");
 				fs.writeFileSync(filepath, JSON.stringify(tofs_data));
 				showGlobalmsginsec('保存完毕',1);						
 				timeline.settingFbid = settingFbid = (_filepath != undefined)?settingFbid:isClear?0:settingFbid;
 				if(_filepath == undefined){
-					timeline.initApp();
+					timeline.initData();
+					timeline.intMaintimeline();
+					timeline.initTray();
 					timeline = global.module.exports.timeline;
 					try{
 						initSetting(timeline);
@@ -446,12 +450,11 @@ window.onload = function(){
 	}
 	/* 添加教程数据 */
 	function addExampleData(data){
-		let fs,tutorial;
+		let tutorial;
 		if(!data.data[0] || data.data[0].FBname!="教程实例")
 		{
 			try{
-			fs =require("fs");
-			tutorial = JSON.parse(fs.readFileSync(timeline.path+"\\asset\\datafile\\tutorial.dat",'utf-8')).data[0];
+			tutorial = JSON.parse(fs.readFileSync(Ln.path+"\\asset\\datafile\\tutorial.dat",'utf-8')).data[0];
 			
 			}catch(e){
 				alert('读取教程文件失败');
@@ -461,8 +464,7 @@ window.onload = function(){
 		}
 		else if(!data.data[0] || data.data[0].FBname=="教程实例"){
 			try{
-			fs =require("fs");
-			tutorial = JSON.parse(fs.readFileSync(timeline.path+"\\asset\\datafile\\tutorial.dat",'utf-8')).data[0];
+			tutorial = JSON.parse(fs.readFileSync(Ln.path+"\\asset\\datafile\\tutorial.dat",'utf-8')).data[0];
 			}catch(e){
 				alert('读取教程文件失败');
 				return data;
@@ -472,7 +474,7 @@ window.onload = function(){
 			
 		return data;
 	}
-	/* tab-快捷键 
+	/* 快捷键 
 	*/
 	try{
 		hotkey = timeline.hotkey;
@@ -500,8 +502,7 @@ window.onload = function(){
 			})
 		});
 		
-	}
-	catch(e){
+	}catch(e){
 		console.log(e)
 	}
 	ele_hotkeysave.addEventListener('click',function(e){
@@ -511,11 +512,11 @@ window.onload = function(){
 		localStorage.setItem('hk_forwd',_hotkey[2]);
 		localStorage.setItem('hk_revrs',_hotkey[3]);
 		localStorage.setItem('hk_nextp',_hotkey[4]);
-		timeline.initApp();
+		timeline.registerGHotKey();
 	});
 	/* 导入 */
 	ele_importDat.addEventListener('change',function(e){
-		let file = e.target.value,fs =require("fs"),imsfdata;
+		let file = e.target.value,imsfdata;
 		try{
 		imsfdata = JSON.parse(fs.readFileSync(file,'utf-8'));
 		}catch(e){
@@ -657,7 +658,7 @@ window.onload = function(){
 	/* 导出 */
 	ele_exportDat.addEventListener('click',function(e){
 		 let cdate = new Date(),
-		  filename = timeline.exportpath + "\\lntl-"+cdate.getFullYear() + (cdate.getMonth()+1) + cdate.getDate()+"-"+cdate.getHours()+cdate.getMinutes()+cdate.getSeconds()+".dat";
+		  filename = Ln.exportpath + "\\lntl-"+cdate.getFullYear() + (cdate.getMonth()+1) + cdate.getDate()+"-"+cdate.getHours()+cdate.getMinutes()+cdate.getSeconds()+".dat";
 		try{
 			formatData(filename,function(){
 				try{
@@ -670,5 +671,6 @@ window.onload = function(){
 				console.log(e)
 			}
 	});
+
 }
 	

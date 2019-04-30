@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset=utf-8>
+		<title>成本计算器 - Lynnote Jobber Helper v0.2.120190321</title>
+		<link rel="stylesheet" type="text/css" href="../asset/css/layout.css" />
+		<script src="../asset/js/vue.js"></script> 
+	</head>
+	<body class="jobber">
+		<div class="dkplist jobber-list none" id="medicFood" :class="ready">
+		<div v-if="recipes.length>0">
+		<a href="javascript:void(0)" role="button" @click="updatePrice">刷新</a>
+			<table>
+			 <thead>
+				<tr>
+					<td colspan="8">单价为每颗小药的大约材料成本价(取整金),材料价格以最后上传数据为准.</td> 
+				</tr>
+			   <tr class="tl"> 
+				<th class="th0"></th>
+				<th class="th1">名称</th>
+				<th class="th2">属性</th> 
+				<th class="th3">紫材料</th>
+				<th class="th4">蓝材料</th>
+				<th class="th5">基础材料</th>
+				<th class="th6">NPC材料</th>
+				<th class="th7">单价<span class="small">(金)</span></th>
+			  </tr> 
+			 </thead>
+			 <tbody>
+			  <tr v-for="(recipe,index) in recipes" :class="`type${recipe.type}`"> 
+				<td class="tc"><input type="checkbox" :name="`mf${recipe.type}`" :value="recipe" v-model="checkrecipes" :id="`recipe${index}`" /></td>
+				<td><label :for="`recipe${index}`">{{recipe.mf}}</label></td> 
+				<td>{{recipe.mfpro}}</td> 
+				<td class="textc_p"><span v-for="material in recipe.materials1" :title = "material.nGold">{{material.name}}<span class="small">*{{material.amount}}</span></span>
+					<p class="terror">{{recipe.materials1.annotation}}</p>
+				</td>  
+				<td class="textc_b"><span v-for="material in recipe.materials2" :title = "material.nGold">{{material.name}}<span class="small">*{{material.amount}}</span></span>
+					<p class="terror">{{recipe.materials2.annotation}}</p>
+				</td>   
+				<td class="textc_c"><span v-for="material in recipe.materials3" :title = "material.nGold">{{material.name}}<span class="small">*{{material.amount}}</span></span>
+					<p class="terror" v-if="recipe.materials3">{{recipe.materials3.annotation}}</p>
+				</td> 
+				<td class="other"><span v-for="material in recipe.npcmaterials">{{material.name}}<span class="small">*{{material.amount}}</span></span>
+					<p class="terror">{{recipe.npcmaterials.annotation}}</p>
+				</td>   
+				<td class="textc_u">{{recipe.unit}}</td>   
+			  </tr> 
+			 </tbody>
+			 <tfoot v-if = "recipesSum>0">
+				<tr class="clearfix" >
+					<td class="recipesSum">{{recipesSum}}</td> 
+					<td colspan="6">
+						<ul><li v-for="(recipe,index) in checkrecipes"><span :class="recipe.pre">
+							<template v-if="index>0">+</template> {{recipe.mf}}<template v-if="recipe.type === '11'" >{{recipe.mfpro}}</template>
+						</span></li></ul>	
+					</td> 
+				</tr>
+			 </tfoot>
+			</table>  
+		</div>
+		<div  v-show="jx3pathinput" class="getjx3path">
+		<ul>
+			<li>首次使用请选择游戏启动路径,如"D:\剑网3完整客户端\bin\zhcn_hd\gameupdater.exe",或者选择游戏启动的快捷方式图标</li>
+		<!-- <input type="file" id="AHpath" nwdirectory /> -->
+			<li>该功能需要读取<剑网3>中AH插件本地数据, 选择路径后即视为了解并授权, 如介意请勿使用该功能.</li>
+		</ul>
+		<br /> 
+		<input type="file" id="AHpath" />
+	</div>
+	</div> 
+	
+	
+		<script src="../asset/js/jobber.js"></script> 	 
+	</body>
+</html>
