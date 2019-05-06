@@ -24,6 +24,7 @@ var timeline = {},
 	tuning = false,  //是否微调了时间
 	ele_controlarea = document.getElementById('controlarea'),  //body
 	ele_maintimeline = document.getElementById('maintimeline'),  //总时间
+	ele_tllist = document.getElementById('tllist'),  //tllist
 	ele_maintimer = document.getElementById('maintimer'),  //总时间
 	ele_min = document.getElementById('time-min'),  //分钟数
 	ele_sec = document.getElementById('time-sec'),  //秒数
@@ -76,6 +77,7 @@ var timeline = {},
 		timeline.initApp();
 		timeline.intMaintimeline();
 		timeline.initTray();
+		timeline.intAppear();
 	}
 	function initVariate(){
 		menuitem_last = null;
@@ -430,6 +432,12 @@ var timeline = {},
 		countdownCore();
 		if(menuitem_last) ele_msg.style.display = 'none';
 		else ele_msg.style.display = 'block';
+	}
+	timeline.intAppear = () => {
+		let appeartl = localStorage.getItem('appear0') || 'checked';
+		let appearList = localStorage.getItem('appear1') || 'checked';
+		ele_maintimeline.style.display = appeartl == 'checked'?"block":"none";
+		ele_tllist.style.display = appearList == 'checked'?"block":"none";
 	}
 	timeline.inttimebox = () => {
 		// cskill

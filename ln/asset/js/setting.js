@@ -1,26 +1,44 @@
 /* Ajax公共方法 */
 let Ajax={
     get: function(url, fn ,failfn) {
-        var obj = new XMLHttpRequest();  // XMLHttpRequest对象用于在后台与服务器交换数据          
+        var obj = new XMLHttpRequest();  // XMLHttpRequest对象用于在后台与服务器交换数据  
+		let _url = url;
         obj.open('GET', url, true);
+        /* obj.onreadystatechange = function(){
+			var _url = url; //用闭包在回调时候获取url ,防止302
+			return function() {
+				// console.log(_url);
+				if (obj.readyState == 4 && obj.status == 200 && obj.responseURL == _url || obj.status == 304) { // readyState == 4说明请求已完成
+					fn.call(this, obj.responseText);  //从服务器获得数据
+				}
+				else{
+					failfn.call(this, obj.status);
+				}
+			};
+		}(); */
+		obj.onreadystatechange = function(){
+			if (obj.readyState == 4 && (obj.status == 200 || obj.status == 304) && obj.responseURL == _url) { 
+				fn.call(this, obj.responseText);  //从服务器获得数据
+			}
+			else{
+				failfn.call(this, obj.status);
+			}		
+		};
+        obj.send();
+
+    },
+    post: function (url, data, fn) {         // datat应为'a=a1&b=b1'这种字符串格式，在jq里如果data为对象会自动将对象转成这种字符串格式
+        var obj = new XMLHttpRequest();
+		let _url = url;
+        obj.open("POST", url, true);
+        obj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");  // 添加http头，发送信息至服务器时内容编码类型
         obj.onreadystatechange = function() {
-            if (obj.readyState == 4 && obj.status == 200 || obj.status == 304) { // readyState == 4说明请求已完成
-                fn.call(this, obj.responseText);  //从服务器获得数据
+            if (obj.readyState == 4 && (obj.status == 200 || obj.status == 304) && obj.responseURL == _url) {  // 304未修改
+                fn.call(this, obj.responseText);
             }
 			else{
 				failfn.call(this, obj.status);
 			}
-        };
-        obj.send();
-    },
-    post: function (url, data, fn) {         // datat应为'a=a1&b=b1'这种字符串格式，在jq里如果data为对象会自动将对象转成这种字符串格式
-        var obj = new XMLHttpRequest();
-        obj.open("POST", url, true);
-        obj.setRequestHeader("Content-type", "application/x-www-form-urlencoded");  // 添加http头，发送信息至服务器时内容编码类型
-        obj.onreadystatechange = function() {
-            if (obj.readyState == 4 && (obj.status == 200 || obj.status == 304)) {  // 304未修改
-                fn.call(this, obj.responseText);
-            }
         };
         obj.send(data);
     }
@@ -51,13 +69,18 @@ window.onload = function(){
 		ele_importDat = document.getElementById('importDat'), //导入数据
 		ele_exportDat = document.getElementById('exportDat'), //导出数据
 		ele_userDatas = document.getElementById('userDatas'), //frame - data
+		ele_appear = document.getElementById('appear'), //frame - 皮肤
 		ele_homepage = document.getElementById('homepage'), //frame - 关于
 		ele_tutorial = document.getElementById('tutorial'), //frame - 教程
+		ele_appeargrop = document.getElementById('appear').getElementsByTagName('input'), //皮肤组
+		
+		// ele_appearTl = ele_appeargrop[0], //时间轴
+		// ele_appearList = ele_appeargrop[1], //时间列表
 		datavalid = true, 
 		win,
 		timeline, 
 		sfdata,
-		settingFbid,
+		settingFbid, //当前选择的副本
 		FBcontainer,
 		tofs_data,
 		// traymenu,
@@ -67,6 +90,7 @@ window.onload = function(){
 		currentBossname,  
 		ele_currentBoss //[label,div.show,index]
 		;
+	// ele_appeargrop = [ele_appeargrop[0],ele_appeargrop[1]];
 	let fs = require('fs');
 	let DELETEBOSS = '确认删除该boss吗? <br /> 确认后, 点击 "保存" 键永久删除.'
 		;
@@ -171,8 +195,8 @@ window.onload = function(){
 		});
 	}
 	/* 初始化外链页 */
-	initLinkPages("http://timeline.lynnote.site/tl-data/",ele_userDatas);
-	initLinkPages("http://timeline.lynnote.site/tutorial/",ele_tutorial);
+	// initLinkPages("http://timeline.lynnote.site/tl-data/",ele_userDatas);
+	// initLinkPages("http://timeline.lynnote.site/tutorial/",ele_tutorial);
 	initLinkPages("http://timeline.lynnote.site/",ele_homepage);
 	function initLinkPages(url,ele){
 		try{
@@ -191,7 +215,7 @@ window.onload = function(){
 				ele.innerHTML = error;
 			});
 		}catch(e){
-			
+			console.log(e)
 		}
 	}
 	/* 创建boss */
@@ -270,11 +294,13 @@ window.onload = function(){
 		console.log(e)
 	}
 	function initSetting(tl){
-			if(settingFbid==undefined) ele_checkbossmsg.style.display = 'block';
-			else {ele_checkbossmsg.style.display = 'none';
+		if(settingFbid==undefined) ele_checkbossmsg.style.display = 'block';
+		else {
+			ele_checkbossmsg.style.display = 'none';
 			FBcontainer = copyObj(tl.sfdata.data[settingFbid]);
 			intimelinedata();
-			}	
+		}	
+		initAppearCheckbox();
 	} 
 	function intimelinedata(){
 		ele_bossListwarp.innerHTML = '';
@@ -393,20 +419,27 @@ window.onload = function(){
 		if(!datavalid) {
 			alert('数据格式错误'); return;
 		}
-		if(ele_currentFB.value.trim() == ''){
-			tlconfirm('副本名称为空,则会永久删除当前副本集内的数据,确定这样做吗?',function(){
-				setGlobalmsg('block',"保存中...");
-				let	_sfdata = sfdata|| copyObj(timeline.sfdata),
-					fbid = settingFbid
-					;
+		if(ele_currentFB.value.trim() == '' && !settingFbid){
+			if (settingFbid){
+				tlconfirm('副本名称为空,则会永久删除当前副本集内的数据,确定这样做吗?',function(){
+					setGlobalmsg('block',"保存中...");
+					let	_sfdata = sfdata|| copyObj(timeline.sfdata),
+						fbid = settingFbid
+						;
+					tofs_data = _sfdata || {};
+					tofs_data.data = arrRemove(tofs_data.data,fbid);
+					tofs_data = addExampleData(tofs_data);
+					saveDatatofile(true,filepath,_resolve);
+				},function(){
+					return;
+				});
+			}else{ //若未选择任何副本 一般为导出的情况 则不提示删除副本
+				let	_sfdata = sfdata|| copyObj(timeline.sfdata);
 				tofs_data = _sfdata || {};
-				tofs_data.data = arrRemove(tofs_data.data,fbid);
 				tofs_data = addExampleData(tofs_data);
 				saveDatatofile(true,filepath,_resolve);
-			},function(){
-				return;
-			});
-		}else{
+			}
+		}else {
 			setGlobalmsg('block',"保存中...");
 			let _sfdata = sfdata|| copyObj(timeline.sfdata),
 				fbid = settingFbid
@@ -444,8 +477,9 @@ window.onload = function(){
 			catch(e){
 				showGlobalmsginsec('保存失败',1);
 			}
-		}).then(function(){_resolve();
-		}).catch(function(){});
+		})
+		.then(function(){_resolve();})
+		.catch(function(){});
 		
 	}
 	/* 添加教程数据 */
@@ -671,6 +705,25 @@ window.onload = function(){
 				console.log(e)
 			}
 	});
-
+	/* 外观选择 */
+	function initAppearCheckbox(){
+		for ( let i=0; i < ele_appeargrop.length; i++ ){
+			ele_appeargrop[i].checked = localStorage.getItem("appear"+i) == "unchecked" ? false : true;
+			ele_appeargrop[i].addEventListener('change',function(e){
+				localStorage.setItem(e.target.value,e.target.checked?"checked":"unchecked");
+				let haschecked = false;
+				for ( let i=0; i < ele_appeargrop.length; i++ ){
+					haschecked = haschecked || ele_appeargrop[i].checked;
+				}
+				if(!haschecked) {
+					if(i!=0) ele_appeargrop[0].click();
+					else ele_appeargrop[1].click();
+					return;
+				}
+				timeline.intAppear();
+				
+			});
+		}  
+	}
 }
 	

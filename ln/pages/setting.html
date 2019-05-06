@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset=utf-8>
-		<title>Setting - Lynnote Timeline Helper v0.2.120190321</title>
+		<title>Setting - LynnoteJX Timeline Helper v0.2.120190321</title>
 		<link rel="stylesheet" type="text/css" href="../asset/css/layout.css" />
 	</head>
 	<body class="setting">
@@ -10,8 +10,8 @@
 		<ul>
 			<li class="on">时间轴</li>
 			<li>快捷键</li>
-			<li>数据</li>
-			<li>教程</li>
+			<!-- <li>数据</li> -->
+			<li>外观</li>
 			<li>关于</li>
 		</ul>
 	</nav>
@@ -69,8 +69,13 @@
 			</dl>
 			<p class="save"><a href="JavaScript:void(0)" id="hotkeySave" class="hetbtn button">保存</a></p>
 		</div>
-		<div id="userDatas" class="site-main outer"></div>
-		<div id="tutorial" class="site-main outer"></div>
+		<!-- <div id="userDatas" class="site-main outer"></div> -->
+		<!-- <div id="tutorial" class="site-main outer"></div> -->
+		<div id="appear" class="appear">
+			<p class="tip">至少选择一种显示方式</p>
+			<div><label><input type = "checkbox" name = "appeargrop" value = "appear0" />时间轴</label></div>
+			<div><label><input type = "checkbox" name = "appeargrop" value = "appear1" />时间列表</label></div>
+		</div>
 		<div id="homepage" class="site-main outer"></div>
 	</div>
 	<div class="confirm dialog global" id="confirm" style="display:none">

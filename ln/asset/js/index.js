@@ -1,4 +1,5 @@
 /* **
+	暂时废弃
 	Copyright (C) 2019 Lynn
 	All rights reserved
 	http://www.lynnote.site
@@ -36,6 +37,10 @@ Ln.initApp = function() {
             click: opentimeline
         }));
         traymenu.append(new nw.MenuItem({
+            label: '检查更新',
+            click: openupdate
+        }));
+        traymenu.append(new nw.MenuItem({
             label: '关闭',
             click: function() {
                 Ln.tray.remove();
@@ -65,18 +70,17 @@ function opentimeline() {
         })
     });
 }
-function opensetting() {
+function openupdate() {
     var options = {
-        "id": "setting",
+        "id": "update",
         "focus": true
     };
-    nw.Window.open('/ln/pages/setting.html', options,
+    nw.Window.open('/ln/pages/update.html', options,
     function(new_win) {
-        Ln.win_setting = new_win;
-        new_win.on('closed',
+        Ln.win_update = new_win;
+        /* new_win.on('closed',
         function() {
-            localStorage.setItem('editBossindex', 0);
-        })
+        }) */
     });
 }
 function openrecipe() {

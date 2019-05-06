@@ -4,7 +4,7 @@
 	http://www.lynnote.site
 	
 ***/
-global.module.paths = [process.cwd()+'\\ln\\node_modules'];
+global.module.paths = [process.cwd()+'\\ln\\modules',process.cwd()+'\\node_modules'];
 var Ln = {
     path: process.cwd() + "\\Ln",
     datapath: process.cwd() + "\\data",
@@ -58,6 +58,10 @@ Ln.initApp = function() {
             label: '时间轴',
             click: opentimeline
         }));
+		traymenu.append(new nw.MenuItem({
+            label: '检查更新',
+            click: openupdate
+        }));
         traymenu.append(new nw.MenuItem({
             label: '关闭',
             click: function() {
@@ -88,18 +92,20 @@ function opentimeline() {
         })
     });
 }
-function opensetting() {
+function openupdate() {
     var options = {
-        "id": "setting",
-        "focus": true
+        "id": "update",
+        "focus": true,
+		"frame": false,
+		"transparent": true,
+		"show_in_taskbar": false,
     };
-    nw.Window.open('/ln/pages/setting.html', options,
+    nw.Window.open('/ln/pages/update.html', options,
     function(new_win) {
-        Ln.win_setting = new_win;
-        new_win.on('closed',
+        Ln.win_update = new_win;
+        /* new_win.on('closed',
         function() {
-            localStorage.setItem('editBossindex', 0);
-        })
+        }) */
     });
 }
 function openrecipe() {

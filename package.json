@@ -1,6 +1,6 @@
 {
   "name": "LynnoteJX",
-  "version": "0.2.120190321",
+  "version": "0.2.220190503",
   "main": "ln/index.html",
   "nodejs": true,
   "chromium-args": "--disable-gpu --user-data-dir='localappdata/ln'",
@@ -10,8 +10,9 @@
 	  "web": "http://www.lynnote.site"
 	}],
   "domain":"timeline.lynnote.site",
+  "manifestUrl": "http://www.lynnote.site/assets/lntimeline/package",
   "build": {
-        "nwVersion": "0.36.2"
+        "nwVersion": "0.37.4"
     },
   "window": {
 		"id":"lnmain",
@@ -20,5 +21,9 @@
 		"always_on_top": false,
 		"show_in_taskbar":false,
 		"icon":"./ln/asset/icon/logo-ly.png"
+	},
+  "dependencies": {
+		"semver": "^6.0.0",
+		"shelljs": "^0.8.3"
 	}	
 }

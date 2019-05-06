@@ -12,12 +12,14 @@
 + 计时器.主界面以时间轴+列表的形式展示
 + 设置.自定义时间轴,快捷键等
 + 生活技能.读取游戏插件(AH插件)本地数据, 根据AH浏览的最新商品记录计算相关产出成本
++ 检查 自动更新
 
 ## 软件截图
 <img src="/appimg/main.png?raw=true" alt="主界面">
 <img src="/appimg/settingdata.png?raw=true" alt="数据设置">
-<img src="/appimg/tray.png?raw=true" alt="托盘界面">
+<img src="/appimg/traymain.png?raw=true" alt="托盘主界面">
+<img src="/appimg/tray.png?raw=true" alt="托盘时间轴界面">
 <img src="/appimg/settingabout.png?raw=true" alt="about">
-<img src="/appimg/jobber1.png?raw=true" alt="成本计算器路径选择">
-<img src="/appimg/jobber2.png?raw=true" alt="成本计算器展示头部">
-<img src="/appimg/jobber3.png?raw=true" alt="成本计算器展示尾部">
+<img src="/appimg/jobber1.PNG?raw=true" alt="成本计算器路径选择">
+<img src="/appimg/jobber2.PNG?raw=true" alt="成本计算器展示头部">
+<img src="/appimg/jobber3.PNG?raw=true" alt="成本计算器展示尾部">

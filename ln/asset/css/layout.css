@@ -35,7 +35,7 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .site-main h2{font-size:18px; margin:20px 0 15px;}
 .site-main h3{font-size: 16px; margin:20px 0 15px;}
 
-.dialog{position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);  top: 0; left: 0;z-index: 100;}
+.dialog{position: absolute; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5);  top: 0; left: 0;z-index: 101;}
 .dialog.global{position: fixed;}
 .dialog section{position: absolute; width: 400px; height: fit-content; background: #fff; border:1px solid #ced4da;  top: 0; bottom:0; left: 0; right:0; margin:auto
 ;text-align: center;padding:20px;}
@@ -43,9 +43,10 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 .timelinewin .dialog h1{margin:0}
 .dialog div{ margin:10px 0;}
 .dialog a{ margin:0 10px;padding:5px 30px;}
+.controlarea {min-width: 260px; min-height: 40px;}
 .controlarea .dialog section{width:270px;background: transparent; border: none;}
 .controlarea .dialog h1{font-size:17px;}
-.dialog.msg{animation:showhides 0.5s 1;}
+/* .dialog.msg{animation:showhides 0.5s 1;}
 @keyframes showhides{
 	0%{opacity:0;}
 	100%{opacity:1;}
@@ -55,7 +56,7 @@ iframe{width: 100%;height: 100%;position: fixed;border: none;left: 0;top: 35px;}
 	0%{opacity:0;}
 	50%{opacity:1;}
 	100%{opacity:0;}
-}
+} */
 .clearleft{clear:left;}
 /* timeline */
 .controlarea{user-select:none;cursor:move; float: left;position:relative;overflow:hidden}
